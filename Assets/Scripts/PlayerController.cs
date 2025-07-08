@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 	private Vector2 input;
 	private Animator animator;
 	public LayerMask solidObjectsLayer;
+	public LayerMask interactablesLayer;
 
 	private void Awake()
 	{
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
                 targetPos.x += input.x * moveSpeed * Time.deltaTime;
                 targetPos.y += input.y * moveSpeed * Time.deltaTime;
 
-                if (isWalkable(targetPos))
+                if (IsWalkable(targetPos))
 				StartCoroutine(Move(targetPos));
 			}
 		}
@@ -54,8 +55,8 @@ public class PlayerController : MonoBehaviour
 		isMoving = false;
 	}
 
-	private bool isWalkable(Vector3 targetPos)
+	private bool IsWalkable(Vector3 targetPos)
 	{
-		return Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) == null;
+		return Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer | interactablesLayer) == null;
 	}
 }
