@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 	private bool isMoving;
 	private Vector2 input;
 	private Animator animator;
+	public LayerMask solidObjectsLayer;
 
 	private void Awake()
 	{
@@ -21,18 +22,19 @@ public class PlayerController : MonoBehaviour
 			input.x = Input.GetAxisRaw("Horizontal");
 			input.y = Input.GetAxisRaw("Vertical");
 
-			Debug.Log("input x: " + input.x);
-            Debug.Log("input y: " + input.y);
-
             if (input != Vector2.zero) 
 			{
                 animator.SetFloat("moveX", input.x);
                 animator.SetFloat("moveY", input.y);
 
-                var targetPos = transform.position;
-				targetPos.x += input.x;
-				targetPos.y += input.y;
+                //            var targetPos = transform.position;
+                //targetPos.x += input.x;
+                //targetPos.y += input.y;
+                Vector3 targetPos = transform.position;
+                targetPos.x += input.x * moveSpeed * Time.deltaTime;
+                targetPos.y += input.y * moveSpeed * Time.deltaTime;
 
+                if (isWalkable(targetPos))
 				StartCoroutine(Move(targetPos));
 			}
 		}
@@ -50,5 +52,10 @@ public class PlayerController : MonoBehaviour
 		transform.position = targetPos;
 
 		isMoving = false;
+	}
+
+	private bool isWalkable(Vector3 targetPos)
+	{
+		return Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) == null;
 	}
 }
