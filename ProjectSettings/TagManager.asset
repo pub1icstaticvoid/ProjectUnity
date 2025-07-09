@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - SolidObjects
-  - 
-  - 
+  - Interactable
+  - TallObjects
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 715135215
+    locked: 0
+  - name: TallObjects
+    uniqueID: 1026685363
     locked: 0
   m_RenderingLayers:
   - Default
